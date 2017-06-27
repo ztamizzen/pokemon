@@ -7,14 +7,14 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/api/passwords', (req, res) => {
-    const count = 5;
-    const passwords = Array.from(Array(count).keys()).map(i => generatePassword(12, false));
-    res.json(passwords);
-    console.log(`Sent ${count} passwords`);
+	const count = 5;
+	const passwords = Array.from((new Array(count)).keys()).map(i => generatePassword(12, false));
+	res.json(passwords);
+	console.log(`Sent ${count} passwords`);
 });
 
 app.get('*', (req, res) => {
-    res.sendfile(path.join(__dirname, '/client/build/index.html'));
+	res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
 const port = process.env.PORT || 5000;
