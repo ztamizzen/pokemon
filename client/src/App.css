@@ -2,15 +2,28 @@ html {
     font-size: 10px;
 }
 
+body {
+    background-image: radial-gradient(circle at top, #fff, #bada55);
+    font-size: 1.6rem;
+    min-height: 100vh;
+}
+
 .App {
     text-align: center;
     font-family: "Courier New", monospace;
     width: 100%;
 }
 
+.App-header {
+    background-color: white;
+    border-bottom: .1rem solid forestgreen;
+}
+
 h1 {
     font-weight: normal;
     font-size: 4.2rem;
+    margin: 0;
+    padding: 1rem;
 }
 
 .passwords {
