@@ -41,10 +41,14 @@ h1 {
     text-shadow: 0 0 .5rem #bada55;
 }
 
+.btn {
+    cursor: pointer;
+    border-radius: .5rem;
+}
+
 .more {
     background-color: #fff;
     border: .2rem solid #000;
-    border-radius: .5rem;
     box-shadow: 0 1.5rem 1rem -.5rem #bada55;
     font-size: 3.2rem;
     font-family: "Trebuchet MS", "Courier New", monospace;

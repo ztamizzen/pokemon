@@ -16,10 +16,7 @@ app.get('/api/passwords', (req, res) => {
 
 app.get('/api/quote', (req, res) => {
 	randomQuote()
-		.then(quote => {
-			console.log('Responded with quote', quote);
-			return res.json(quote)
-		})
+		.then(quote => res.json(quote))
 		.catch(err => console.log(err));
 });
 

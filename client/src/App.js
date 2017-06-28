@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Quote from './Quote';
+import { Quotes } from './Quote';
+import { Passwords } from './Passwords';
 import './App.css';
 
 class App extends Component {
@@ -23,34 +24,35 @@ class App extends Component {
 	};
 
 	render() {
-		const { passwords, quote } = this.state,
-			mapped = passwords.map((password, key) => <li key={key}>{password}</li>),
-			quotes = quote.map((quote, idx) => <Quote quote={quote} key={idx} />);
-
+		const { passwords, quote } = this.state;
 		return (
 			<div className="App">
 				<div className="App-header">
 					<h1>5 passwords</h1>
 				</div>
+
 				{passwords.length ? (
 					<div className="passwords-wrapper">
-						<ul className="passwords">
-							{mapped}
-						</ul>
+						<Passwords passwords={passwords} />
 						<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
 					</div>
 				) : (
 					<div className="single-button-wrapper">
-						<button className="more" onClick={this.getPasswords}>FFS! Try again!</button>
+						<button className="more" onClick={this.getPasswords}>Try again</button>
 					</div>
 				)}
-				{ quote.length ? (<footer className="App-foot">
-					{quotes}
-					<button className="other-quote" onClick={this.getQuote}>Another</button>
-				</footer>) : (<footer className="App-foot">
-					<p>Quoteless online</p>
-					<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
-				</footer>)}
+
+				{ quote.length ? (
+					<footer className="App-foot">
+						<Quotes quotes={quote} />
+						<button className="other-quote" onClick={this.getQuote}>Another</button>
+					</footer>
+				) : (
+					<footer className="App-foot">
+						<p>Quoteless online</p>
+						<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
+					</footer>
+				)}
 			</div>
 		);
 	}
