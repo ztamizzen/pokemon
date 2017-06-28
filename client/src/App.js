@@ -24,14 +24,16 @@ class App extends Component {
 					<h1>5 passwords</h1>
 				</div>
 				{passwords.length ? (
-					<div>
+					<div className="passwords-wrapper">
 						<ul className="passwords">
 							{mapped}
 						</ul>
-						<button className="more" onClick={this.getPasswords}>Get more</button>
+						<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
 					</div>
 				) : (
-					<button className="more" onClick={this.getPasswords}>Try again?</button>
+					<div className="single-button-wrapper">
+						<button className="more" onClick={this.getPasswords}>FFS! Try again!</button>
+					</div>
 				)}
 			</div>
 		);

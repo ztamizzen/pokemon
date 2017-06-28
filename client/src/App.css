@@ -3,20 +3,36 @@ html {
 }
 
 body {
-    background-image: radial-gradient(circle at top, #fff, #bada55);
+    background-image: radial-gradient(circle at bottom, #fff, #bada55);
     font-size: 1.6rem;
+}
+
+body, #root, .App {
     min-height: 100vh;
 }
 
 .App {
-    text-align: center;
+    align-items: center;
+    display: grid;
+    grid-template-rows: min-content 1fr;
     font-family: "Courier New", monospace;
-    width: 100%;
+    text-align: center;
 }
 
 .App-header {
+    animation: accordion ease-in-out 2000ms alternate infinite;
     background-color: white;
     border-bottom: .1rem solid forestgreen;
+    text-align: left;
+}
+
+@keyframes accordion {
+    from {
+        letter-spacing: 2rem;
+    }
+    to {
+        letter-spacing: -2rem;
+    }
 }
 
 h1 {
@@ -27,17 +43,20 @@ h1 {
 }
 
 .passwords {
+    font-size: 3.4rem;
     list-style: none;
-    padding: 0;
-    font-size: 3.2rem;
     margin-bottom: 2rem;
+    padding: 0;
+    text-shadow: 0 0 .5rem #bada55;
 }
 
 .more {
-    font-size: 3.2rem;
-    font-family: "Courier New", monospace;
-    border: .2rem solid #000;
     background-color: #fff;
+    border: .2rem solid #000;
+    border-radius: .5rem;
+    box-shadow: 0 1.5rem 1rem -.5rem #bada55;
+    font-size: 3.2rem;
+    font-family: "Trebuchet MS", "Courier New", monospace;
     padding: 1rem 2.5rem;
 }
 
