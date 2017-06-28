@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Quotes } from './Quote';
 import { Passwords } from './Passwords';
+import { Pokemons } from './Pokemons';
 import './App.css';
 
 class App extends Component {
@@ -31,16 +32,19 @@ class App extends Component {
 					<h1>5 passwords</h1>
 				</div>
 
-				{passwords.length ? (
-					<div className="passwords-wrapper">
-						<Passwords passwords={passwords} />
-						<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
-					</div>
-				) : (
-					<div className="single-button-wrapper">
-						<button className="more" onClick={this.getPasswords}>Try again</button>
-					</div>
-				)}
+				<main className="content">
+					<Pokemons />
+					{passwords.length ? (
+						<div className="passwords-wrapper">
+							<Passwords passwords={passwords} />
+							<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
+						</div>
+					) : (
+						<div className="single-button-wrapper">
+							<button className="more" onClick={this.getPasswords}>Try again</button>
+						</div>
+					)}
+				</main>
 
 				{ quote.length ? (
 					<footer className="App-foot">

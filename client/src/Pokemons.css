@@ -1,0 +1,35 @@
+.pokemons {
+}
+
+.pokemons ul {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+}
+
+.pokemons li {
+    text-decoration: underline;
+    text-decoration-color: white;
+    cursor: pointer;
+    padding: .5rem;
+}
+
+.pokemon {
+    background-color: white;
+}
+
+.pokemon .meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+    padding: 0 0 1rem;
+}
+
+.pokemon .meta dt {
+    text-align: right;
+}
+
+.pokemon .meta dd {
+    margin: 0;
+    text-align: left;
+}

@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "password-generator": "^2.1.0",
+    "pokedex-promise-v2": "^3.0.3",
     "random-quote": "0.0.1"
   },
   "scripts": {
