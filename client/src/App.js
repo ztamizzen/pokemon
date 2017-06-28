@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import Quote from './Quote';
 import './App.css';
 
 class App extends Component {
-	state = { passwords: [] };
+	state = { passwords: [], quote: [] };
 
 	componentDidMount() {
 		this.getPasswords();
+		this.getQuote();
 	}
 
 	getPasswords = () => {
@@ -14,10 +16,17 @@ class App extends Component {
 			.then(passwords => this.setState({ passwords }));
 	};
 
-	render() {
-		const { passwords } = this.state;
+	getQuote = () => {
+		fetch('/api/quote')
+			.then(res => res.json())
+			.then(quote => this.setState({ quote }));
+	};
 
-		const mapped = passwords.map((password, key) => <li key={key}>{password}</li>);
+	render() {
+		const { passwords, quote } = this.state,
+			mapped = passwords.map((password, key) => <li key={key}>{password}</li>),
+			quotes = quote.map((quote, idx) => <Quote quote={quote} key={idx} />);
+
 		return (
 			<div className="App">
 				<div className="App-header">
@@ -35,6 +44,13 @@ class App extends Component {
 						<button className="more" onClick={this.getPasswords}>FFS! Try again!</button>
 					</div>
 				)}
+				{ quote.length ? (<footer className="App-foot">
+					{quotes}
+					<button className="other-quote" onClick={this.getQuote}>Another</button>
+				</footer>) : (<footer className="App-foot">
+					<p>Quoteless online</p>
+					<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
+				</footer>)}
 			</div>
 		);
 	}

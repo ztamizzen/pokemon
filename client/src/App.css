@@ -1,26 +1,13 @@
-html {
-    font-size: 10px;
-}
-
-body {
-    background-image: radial-gradient(circle at bottom, #fff, #bada55);
-    font-size: 1.6rem;
-}
-
-body, #root, .App {
-    min-height: 100vh;
-}
-
 .App {
     align-items: center;
     display: grid;
-    grid-template-rows: min-content 1fr;
-    font-family: "Courier New", monospace;
+    grid-template-rows: min-content 1fr min-content;
+    font-family: Consolas, "Courier New", monospace;
     text-align: center;
 }
 
 .App-header {
-    animation: accordion ease-in-out 2000ms alternate infinite;
+    animation: accordion ease-in-out 12000ms alternate infinite;
     background-color: white;
     border-bottom: .1rem solid forestgreen;
     text-align: left;
@@ -31,8 +18,12 @@ body, #root, .App {
         letter-spacing: 2rem;
     }
     to {
-        letter-spacing: -2rem;
+        letter-spacing: -.8rem;
     }
+}
+
+.App-foot {
+    padding: 2rem 0;
 }
 
 h1 {
@@ -66,4 +57,34 @@ h1 {
 
 .more:active {
     background-color: #FFEFA9;
+}
+
+.quote {
+    margin: auto;
+    max-width: 70vw;
+}
+
+.quote a {
+    text-decoration: none;
+}
+
+.other-quote {
+    background-color: transparent;
+    border: 0;
+    border-top: .1rem solid #bada55;
+    cursor: pointer;
+    font-family: Consolas, 'Liberation Mono', Menlo, "Courier New", monospace;
+    font-size: 1.6rem;
+    margin: .2rem;
+    padding: 1rem 2rem;
+    transition: border-color 250ms;
+}
+
+.other-quote:hover {
+    border-top-color: black;
+}
+
+.other-quote:active {
+    border: 0;
+    outline: 0;
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const generatePassword = require('password-generator');
+const randomQuote = require('random-quote');
 
 const app = express();
 
@@ -11,6 +12,15 @@ app.get('/api/passwords', (req, res) => {
 	const passwords = Array.from((new Array(count)).keys()).map(i => generatePassword(12, false));
 	res.json(passwords);
 	console.log(`Sent ${count} passwords`);
+});
+
+app.get('/api/quote', (req, res) => {
+	randomQuote()
+		.then(quote => {
+			console.log('Responded with quote', quote);
+			return res.json(quote)
+		})
+		.catch(err => console.log(err));
 });
 
 app.get('*', (req, res) => {
