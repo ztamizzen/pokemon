@@ -15,24 +15,9 @@ export class Pokemons extends Component {
 	}
 
 	getPokemonsList = () => {
-		fetch(`/api/pokemons?offset=${this.offset}`)
+		fetch(`/api/pokemons`)
 			.then(res => res.json())
 			.then(pokemons => this.setState({ pokemons: pokemons.results }));
-	};
-
-	getPokemon = (e) => {
-		const currentTarget = e.currentTarget;
-		currentTarget.classList.add('loading');
-		fetch(`/api/pokemons?name=${e.currentTarget.textContent}`)
-			.then(res => res.json())
-			.then(pokemon => this.setState({ pokemon }, () => {
-				currentTarget.classList.remove('loading');
-			}));
-	};
-
-	clearPokemon = (e) => {
-		e && e.preventDefault();
-		this.setState({ pokemon: null });
 	};
 
 	render() {
@@ -88,7 +73,7 @@ export class PokemonInfo extends Component {
 
 
 	getPokemon = () => {
-		fetch(`/api/pokemons?name=${this.props.match.params.pokemon}`)
+		fetch(`/api/pokemon?name=${this.props.match.params.pokemon}`)
 			.then(res => res.json())
 			.then(pokemon => this.setState({ pokemon }));
 	};

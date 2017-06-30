@@ -6,6 +6,7 @@ const Pokedex = require('pokedex-promise-v2');
 
 const P = new Pokedex();
 const app = express();
+let pokemonOffset = 0;
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -25,20 +26,20 @@ app.get('/api/quote', (req, res) => {
 app.get('/api/pokemons', (req, res) => {
 	let interval = {
 		limit: 20,
-		offset: 0
+		offset: pokemonOffset
 	};
 	if (req.query.limit) {
 		interval.limit = parseInt(req.query.limit, 10);
 	}
 	if (req.query.offset) {
-		interval.offset = parseInt(req.query.offset, 10);
+		pokemonOffset = parseInt(req.query.offset, 10);
+		interval.offset = pokemonOffset;
 	}
-	if (req.query.name) {
-		P.getPokemonByName(req.query.name).then((pokemon) => res.json(pokemon));
-	} else {
-		P.getPokemonsList(interval).then((result) => res.json(result));
-	}
+	P.getPokemonsList(interval).then((result) => res.json(result));
+});
 
+app.get('/api/pokemon', (req, res) => {
+	P.getPokemonByName(req.query.name).then((pokemon) => res.json(pokemon));
 });
 
 app.get('*', (req, res) => {
