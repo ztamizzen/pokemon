@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
+import {
+	BrowserRouter,
+	Route,
+	NavLink
+} from 'react-router-dom';
+
 import { Quotes } from './Quote';
 import { Passwords } from './Passwords';
 import { Pokemons } from './Pokemons';
 import './App.css';
 
 class App extends Component {
-	state = { passwords: [], quote: [] };
+	state = { quote: [] };
 
 	componentDidMount() {
-		this.getPasswords();
 		this.getQuote();
 	}
-
-	getPasswords = () => {
-		fetch('/api/passwords')
-			.then(res => res.json())
-			.then(passwords => this.setState({ passwords }));
-	};
 
 	getQuote = () => {
 		fetch('/api/quote')
@@ -25,39 +24,37 @@ class App extends Component {
 	};
 
 	render() {
-		const { passwords, quote } = this.state;
+		const { quote } = this.state;
 		return (
-			<div className="App">
-				<div className="App-header">
-					<h1>5 passwords</h1>
-				</div>
+			<BrowserRouter>
+				<div className="App">
+					<div className="App-header">
+						<h1>5 passwords &amp; Pokemons</h1>
+					</div>
 
-				<main className="content">
-					<Pokemons />
-					{passwords.length ? (
-						<div className="passwords-wrapper">
-							<Passwords passwords={passwords} />
-							<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
-						</div>
+					<nav>
+						<NavLink to="/pokemons">Home</NavLink>
+						<NavLink to="/passwords">Passwords</NavLink>
+					</nav>
+
+					<main className="content">
+						<Route path="/pokemons" component={Pokemons} />
+						<Route path="/passwords" component={Passwords} />
+					</main>
+
+					{ quote.length ? (
+						<footer className="App-foot">
+							<Quotes quotes={quote} />
+							<button className="other-quote" onClick={this.getQuote}>Another</button>
+						</footer>
 					) : (
-						<div className="single-button-wrapper">
-							<button className="more" onClick={this.getPasswords}>Try again</button>
-						</div>
+						<footer className="App-foot">
+							<p>Quoteless online</p>
+							<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
+						</footer>
 					)}
-				</main>
-
-				{ quote.length ? (
-					<footer className="App-foot">
-						<Quotes quotes={quote} />
-						<button className="other-quote" onClick={this.getQuote}>Another</button>
-					</footer>
-				) : (
-					<footer className="App-foot">
-						<p>Quoteless online</p>
-						<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
-					</footer>
-				)}
-			</div>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }

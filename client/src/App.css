@@ -1,7 +1,6 @@
 .App {
-    align-items: center;
     display: grid;
-    grid-template-rows: min-content 1fr min-content;
+    grid-template-rows: min-content max-content 1fr min-content;
     font-family: Consolas, "Courier New", monospace;
     text-align: center;
 }
@@ -9,22 +8,54 @@
 .App-header {
     animation: accordion ease-in-out 12000ms alternate infinite;
     background-color: white;
-    border-bottom: .1rem solid forestgreen;
     text-align: left;
 }
 
 @keyframes accordion {
     from {
-        letter-spacing: 2rem;
+        letter-spacing: .2rem;
     }
     to {
         letter-spacing: -.8rem;
     }
 }
 
-.content {
+.App nav {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media screen and (max-width: 768px) {
+    .App nav {
+        grid-gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.App nav a, .App nav a:link, .App nav a:visited {
+    background-color: #bada55;
+    color: #047;
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: background-color 500ms, color 500ms;
+}
+
+.App nav a:hover, .App nav a:focus {
+    background-color: rgba(255, 255, 255, .5);
+    color: black;
+}
+
+.App nav a.active {
+    background-color: white;
+}
+
+.content {
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
 }
 
 .App-foot {
@@ -36,37 +67,6 @@ h1 {
     font-size: 4.2rem;
     margin: 0;
     padding: 1rem;
-}
-
-.passwords {
-    font-size: 3.4rem;
-    list-style: none;
-    margin: 0;
-    margin-bottom: 2rem;
-    padding: 0;
-    text-shadow: 0 0 .5rem #bada55;
-}
-
-.btn {
-    cursor: pointer;
-    border-radius: .5rem;
-}
-
-.more {
-    background-color: #fff;
-    border: .2rem solid #000;
-    box-shadow: 0 1.5rem 1rem -.5rem #bada55;
-    font-size: 3.2rem;
-    font-family: "Trebuchet MS", "Courier New", monospace;
-    padding: 1rem 2.5rem;
-}
-
-.more:hover {
-    background-color: #FDD836;
-}
-
-.more:active {
-    background-color: #FFEFA9;
 }
 
 .quote {

@@ -24,14 +24,16 @@ app.get('/api/quote', (req, res) => {
 
 app.get('/api/pokemons', (req, res) => {
 	let interval = {
-		limit: 10,
+		limit: 20,
 		offset: 0
 	};
+	if (req.query.limit) {
+		interval.limit = parseInt(req.query.limit, 10);
+	}
 	if (req.query.offset) {
 		interval.offset = parseInt(req.query.offset, 10);
 	}
 	if (req.query.name) {
-		console.log(req.query.name);
 		P.getPokemonByName(req.query.name).then((pokemon) => res.json(pokemon));
 	} else {
 		P.getPokemonsList(interval).then((result) => res.json(result));
