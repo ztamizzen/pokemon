@@ -2,28 +2,64 @@ import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {
 	Route,
-	Link
+	NavLink
 } from 'react-router-dom';
 import './Pokemons.css';
 
 export class Pokemons extends Component {
-	state = { pokemons: null };
-	offset = 0;
+	state = {
+		pokemons: null,
+		limit: 20,
+		offset: 0
+	};
 
 	componentDidMount() {
 		this.getPokemonsList();
 	}
 
 	getPokemonsList = () => {
-		fetch(`/api/pokemons`)
+		fetch(`/api/pokemons?limit=${this.state.limit}&offset=${this.state.offset}`)
 			.then(res => res.json())
 			.then(pokemons => this.setState({ pokemons: pokemons.results }));
+	};
+
+	updateLimit = (e) => {
+		console.log(e.target.value);
+		this.setState({ limit: parseInt(e.target.value, 10) }, () => {
+			this.getPokemonsList();
+		});
+	};
+
+	updateOffset = (e) => {
+		let value;
+		if (typeof e === "number") {
+			value = parseInt(e, 10);
+		}
+		else {
+			value = parseInt(e.target.value, 10);
+		}
+		console.log(value);
+		this.setState({ offset: this.state.offset + value }, () => {
+			this.getPokemonsList();
+		});
+	};
+
+	goNext = (e) => {
+		e.preventDefault();
+		console.log(e);
+		this.updateOffset(10);
+	};
+
+	goPrev = (e) => {
+		e.preventDefault();
+		console.log(e);
+		this.updateOffset(-10);
 	};
 
 	render() {
 		if (this.state.pokemons) {
 			const { match } = this.props;
-			const { pokemons } = this.state,
+			const { pokemons, offset } = this.state,
 				pokemonList = pokemons.map((poke, idx) => <Pokemon key={idx} pokemon={poke} match={match} />);
 			return (
 				<div className="pokemons" ref={pokemon => this.pokemon = pokemon}>
@@ -35,6 +71,21 @@ export class Pokemons extends Component {
 										transitionName="pokemon-animation"
 										transitionEnterTimeout={500}
 										transitionLeaveTimeout={300}>
+						<li>
+							<form>
+								<label htmlFor="select-limit">Amount:</label>
+								<select id="select-limit" value={this.state.limit} onChange={this.updateLimit}>
+									<option value="10">10</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+								</select>
+								<div>Offset: {offset}</div>
+								<div>
+									<button onClick={this.goPrev}>&laquo;</button>
+									<button onClick={this.goNext}>&raquo;</button>
+								</div>
+							</form>
+						</li>
 						{pokemonList}
 					</CSSTransitionGroup>
 
@@ -149,7 +200,8 @@ export const PokemonSprites = ({ sprites, name }) => {
 export const PokemonMoves = ({ moves }) => {
 	const movesMap = moves.map((move, idx) => {
 		const groupDetails = move.version_group_details.map((vers, idx) => {
-			return <li key={idx}>Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of group {vers.version_group.name}</li>;
+			return <li key={idx}>Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of
+				group {vers.version_group.name}</li>;
 		});
 		return (<li key={idx}>
 			<h4>{move.move.name}</h4>
@@ -184,7 +236,7 @@ export const PokemonStats = ({ stats }) => (
 
 export const Pokemon = ({ pokemon, match }) => {
 	return (<li>
-		<Link className="pokemon-name" to={`${match.url}/${pokemon.name}`}>{pokemon.name}</Link>
+		<NavLink className="pokemon-name" to={`${match.url}/${pokemon.name}`}>{pokemon.name}</NavLink>
 	</li>);
 };
 

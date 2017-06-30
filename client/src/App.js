@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
 	BrowserRouter,
 	Route,
-	NavLink
+	NavLink,
+	Switch
 } from 'react-router-dom';
 
 import { Quotes } from './Quote';
@@ -38,8 +39,10 @@ class App extends Component {
 					</nav>
 
 					<main className="content">
-						<Route path="/pokemons" component={Pokemons} />
-						<Route path="/passwords" component={Passwords} />
+						<Switch>
+							<Route path="/pokemons" component={Pokemons} />
+							<Route path="/passwords" component={Passwords} />
+						</Switch>
 					</main>
 
 					{ quote.length ? (
