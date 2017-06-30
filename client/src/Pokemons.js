@@ -149,8 +149,7 @@ export const PokemonSprites = ({ sprites, name }) => {
 export const PokemonMoves = ({ moves }) => {
 	const movesMap = moves.map((move, idx) => {
 		const groupDetails = move.version_group_details.map((vers, idx) => {
-			return <li key={idx}>Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of group
-				 {vers.version_group.name}</li>;
+			return <li key={idx}>Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of group {vers.version_group.name}</li>;
 		});
 		return (<li key={idx}>
 			<h4>{move.move.name}</h4>
