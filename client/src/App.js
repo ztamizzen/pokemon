@@ -3,6 +3,7 @@ import {
 	BrowserRouter,
 	Route,
 	NavLink,
+	Redirect,
 	Switch
 } from 'react-router-dom';
 
@@ -35,12 +36,13 @@ class App extends Component {
 					</div>
 
 					<nav>
-						<NavLink to="/pokemons">Home</NavLink>
+						<NavLink to="/pokemons">Pokemons</NavLink>
 						<NavLink to="/passwords">Passwords</NavLink>
 						<NavLink to="/gallery">Gallery</NavLink>
 					</nav>
 
 					<main className="content">
+						<Redirect from="/" to="/pokemons" />
 						<Switch>
 							<Route path="/pokemons" component={Pokemons} />
 							<Route path="/passwords" component={Passwords} />

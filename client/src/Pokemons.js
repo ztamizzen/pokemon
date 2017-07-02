@@ -24,7 +24,6 @@ export class Pokemons extends Component {
 	};
 
 	updateLimit = (e) => {
-		console.log(e.target.value);
 		this.setState({ limit: parseInt(e.target.value, 10) }, () => {
 			this.getPokemonsList();
 		});
@@ -33,25 +32,23 @@ export class Pokemons extends Component {
 	updateOffset = (e) => {
 		let value;
 		if (typeof e === "number") {
-			value = Math.max(0, parseInt(e, 10));
+			value = parseInt(e, 10);
 		}
 		else {
-			value = Math.max(0, parseInt(e.target.value, 10));
+			value = parseInt(e.target.value, 10);
 		}
-		this.setState({ offset: this.state.offset + value }, () => {
+		this.setState({ offset: (this.state.offset + value) || 0 }, () => {
 			this.getPokemonsList();
 		});
 	};
 
 	goNext = (e) => {
 		e.preventDefault();
-		console.log(e);
 		this.updateOffset(10);
 	};
 
 	goPrev = (e) => {
 		e.preventDefault();
-		console.log(e);
 		this.updateOffset(-10);
 	};
 
@@ -80,7 +77,8 @@ export class Pokemons extends Component {
 								</select>
 								<div>Offset: {offset}</div>
 								<div className="btn-group">
-									<button className="btn" onClick={this.goPrev} disabled={offset <= 0}>&laquo;</button>
+									<button className="btn" onClick={this.goPrev}
+											disabled={offset <= 0}>&laquo;</button>
 									<button className="btn" onClick={this.goNext}>&raquo;</button>
 								</div>
 							</form>

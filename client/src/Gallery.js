@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Gallery.css';
 
 export class Gallery extends Component {
-	state = { count: 9, images: [] };
+	state = { count: 9, images: [], selectedImage: null };
 
 	componentDidMount() {
 		const count = this.state.count;
@@ -22,15 +22,28 @@ export class Gallery extends Component {
 			});
 	}
 
+	showImage = (e) => {
+		const element = e.currentTarget,
+			selectedImage = element.src;
+		this.setState({ selectedImage });
+	};
+
+	closeImage = (e) => {
+		this.setState({ selectedImage: null });
+	};
+
 	render() {
-		const { images } = this.state;
+		const { images, selectedImage } = this.state;
 		return (<div className="gallery">
-			{images && images.map((image, idx) => <Image key={idx} imageBlob={image} />)}
+			{images && images.map((image, idx) => <Image key={idx} imageBlob={image} onClick={this.showImage} />)}
+			{selectedImage && (<figure>
+				<img src={selectedImage} alt="" onClick={this.closeImage} className="loaded" />
+			</figure>)}
 		</div>);
 	}
 }
 
-export const Image = ({ imageBlob }) => {
+export const Image = ({ imageBlob, onClick }) => {
 	let url = URL.createObjectURL(imageBlob);
-	return (<img src={url} alt="" />);
+	return (<img src={url} alt="" onClick={onClick} />);
 };

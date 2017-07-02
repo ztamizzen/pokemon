@@ -196,23 +196,23 @@
 
 .pokemon-animation-enter {
     opacity: 0;
-    transform: scale(.5) rotateX(90deg);
+    transform: translateX(-100%);
 }
 
 .pokemon-animation-enter.pokemon-animation-enter-active {
     opacity: 1;
-    transform: scale(1) rotateX(0);
+    transform: translateX(0);
     transition: opacity 500ms ease-in, transform 300ms ease-in;
 }
 
 .pokemon-animation-leave {
     opacity: 1;
-    transform: scale(1) rotateX(0deg);
+    transform: translateX(0);
 }
 
 .pokemon-animation-leave.pokemon-animation-leave-active {
     opacity: 0;
-    transform: scale(.5) rotateX(90deg);
+    transform: translateX(-100%);
     transition: opacity 300ms ease-in, transform 300ms ease-in;
 }
 
