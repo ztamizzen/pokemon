@@ -1,0 +1,14 @@
+.gallery {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, calc(33% - 1rem));
+    margin: auto;
+    width: 90vw;
+}
+
+.gallery img {
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center;
+    overflow: hidden;
+}

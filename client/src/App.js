@@ -9,6 +9,7 @@ import {
 import { Quotes } from './Quote';
 import { Passwords } from './Passwords';
 import { Pokemons } from './Pokemons';
+import { Gallery } from './Gallery';
 import './App.css';
 
 class App extends Component {
@@ -36,12 +37,14 @@ class App extends Component {
 					<nav>
 						<NavLink to="/pokemons">Home</NavLink>
 						<NavLink to="/passwords">Passwords</NavLink>
+						<NavLink to="/gallery">Gallery</NavLink>
 					</nav>
 
 					<main className="content">
 						<Switch>
 							<Route path="/pokemons" component={Pokemons} />
 							<Route path="/passwords" component={Passwords} />
+							<Route path="/gallery" component={Gallery} />
 						</Switch>
 					</main>
 

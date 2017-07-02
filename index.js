@@ -47,6 +47,18 @@ app.get('/api/pokemon', (req, res) => {
 	P.getPokemonByName(req.query.name).then((pokemon) => res.json(pokemon));
 });
 
+app.get('/gallery/*.jpg', (req, res) => {
+	console.log(req);
+	let options = {
+		root: path.join(__dirname, 'client/public'),
+		headers: { 'x-timestamp': Date.now(), 'x-sent': true }
+	};
+	res.sendFile(req.params.name, options, (err) => {
+		if (err) next(err);
+		else console.log('Sent file', req.params.name);
+	});
+});
+
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });

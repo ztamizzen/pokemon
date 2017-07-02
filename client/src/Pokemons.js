@@ -9,7 +9,7 @@ import './Pokemons.css';
 export class Pokemons extends Component {
 	state = {
 		pokemons: null,
-		limit: 20,
+		limit: 10,
 		offset: 0
 	};
 
@@ -33,12 +33,11 @@ export class Pokemons extends Component {
 	updateOffset = (e) => {
 		let value;
 		if (typeof e === "number") {
-			value = parseInt(e, 10);
+			value = Math.max(0, parseInt(e, 10));
 		}
 		else {
-			value = parseInt(e.target.value, 10);
+			value = Math.max(0, parseInt(e.target.value, 10));
 		}
-		console.log(value);
 		this.setState({ offset: this.state.offset + value }, () => {
 			this.getPokemonsList();
 		});
@@ -75,14 +74,14 @@ export class Pokemons extends Component {
 							<form>
 								<label htmlFor="select-limit">Amount:</label>
 								<select id="select-limit" value={this.state.limit} onChange={this.updateLimit}>
+									<option value="5">5</option>
 									<option value="10">10</option>
-									<option value="20">20</option>
-									<option value="30">30</option>
+									<option value="15">15</option>
 								</select>
 								<div>Offset: {offset}</div>
-								<div>
-									<button onClick={this.goPrev}>&laquo;</button>
-									<button onClick={this.goNext}>&raquo;</button>
+								<div className="btn-group">
+									<button className="btn" onClick={this.goPrev} disabled={offset <= 0}>&laquo;</button>
+									<button className="btn" onClick={this.goNext}>&raquo;</button>
 								</div>
 							</form>
 						</li>
@@ -183,13 +182,15 @@ export class PokemonInfo extends Component {
 }
 
 export const PokemonSprites = ({ sprites, name }) => {
-	let _sprites = [];
+	let _sprites = [], i = 0;
 	for (let key in sprites) {
 		if (sprites.hasOwnProperty(key)) {
 			if (sprites[key]) {
+				i++;
 				_sprites.push(sprites[key]);
 			}
 		}
+		if (i === 4) break;
 	}
 	return (<div className="cube">
 		{_sprites.map((sprite, idx) => <figure className="cube-face" key={idx}><img src={sprite} alt={name} />
