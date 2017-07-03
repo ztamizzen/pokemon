@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {
+	NavLink,
 	Route,
-	NavLink
+	Switch
 } from 'react-router-dom';
+import { Berries } from './pokemons/Berries';
+import { Pokedexs } from './pokemons/Pokedexs';
 import './Pokemons.css';
 
 export class Pokemons extends Component {
 	state = {
+		count: 0,
 		pokemons: null,
 		limit: 10,
-		offset: 0
+		offset: -1
 	};
 
 	componentDidMount() {
@@ -20,7 +24,7 @@ export class Pokemons extends Component {
 	getPokemonsList = () => {
 		fetch(`/api/pokemons?limit=${this.state.limit}&offset=${this.state.offset}`)
 			.then(res => res.json())
-			.then(pokemons => this.setState({ pokemons: pokemons.results }));
+			.then(pokemons => this.setState({ count: pokemons.count, pokemons: pokemons.results }));
 	};
 
 	updateLimit = (e) => {
@@ -37,29 +41,29 @@ export class Pokemons extends Component {
 		else {
 			value = parseInt(e.target.value, 10);
 		}
-		this.setState({ offset: (this.state.offset + value) || 0 }, () => {
+		this.setState({ offset: (this.state.offset + value) || -1 }, () => {
 			this.getPokemonsList();
 		});
 	};
 
 	goNext = (e) => {
 		e.preventDefault();
-		this.updateOffset(10);
+		this.updateOffset(this.state.limit);
 	};
 
 	goPrev = (e) => {
 		e.preventDefault();
-		this.updateOffset(-10);
+		this.updateOffset(-this.state.limit);
 	};
 
 	render() {
 		if (this.state.pokemons) {
 			const { match } = this.props;
-			const { pokemons, offset } = this.state,
+			const { count, pokemons, offset, limit } = this.state,
 				pokemonList = pokemons.map((poke, idx) => <Pokemon key={idx} pokemon={poke} match={match} />);
 			return (
 				<div className="pokemons" ref={pokemon => this.pokemon = pokemon}>
-					<h2>Pokemons</h2>
+					<h2>{count} Pokemons in index</h2>
 					<CSSTransitionGroup component="ul"
 										className="pokenav"
 										transitionAppear={true}
@@ -68,6 +72,12 @@ export class Pokemons extends Component {
 										transitionEnterTimeout={500}
 										transitionLeaveTimeout={300}>
 						<li>
+							<ul>
+								<li>
+									<NavLink to={`${match.url}/berries`}>Berries</NavLink>
+									<NavLink to={`${match.url}/pokedexs`}>Pokedexs</NavLink>
+								</li>
+							</ul>
 							<form>
 								<label htmlFor="select-limit">Amount:</label>
 								<select id="select-limit" value={this.state.limit} onChange={this.updateLimit}>
@@ -75,7 +85,7 @@ export class Pokemons extends Component {
 									<option value="10">10</option>
 									<option value="15">15</option>
 								</select>
-								<div>Offset: {offset}</div>
+								<div>Offset: {offset + 1} / {Math.ceil(count / limit) } pages</div>
 								<div className="btn-group">
 									<button className="btn" onClick={this.goPrev}
 											disabled={offset <= 0}>&laquo;</button>
@@ -92,12 +102,16 @@ export class Pokemons extends Component {
 										transitionName="pokemon-animation"
 										transitionEnterTimeout={500}
 										transitionLeaveTimeout={300}>
-						<Route path={`${match.url}/:pokemon`} component={PokemonInfo} />
-						<Route exact path={match.url} render={() => (
-							<div>
-								<h2>&laquo; Select a Pokemon &raquo;</h2>
-							</div>
-						)} />
+						<Switch>
+							<Route path={`${match.url}/berries`} component={Berries} />
+							<Route path={`${match.url}/pokedexs`} component={Pokedexs} />
+							<Route path={`${match.url}/:pokemon`} component={PokemonInfo} />
+							<Route exact path={match.url} render={() => (
+								<div>
+									<h2>&laquo; Select a Pokemon &raquo;</h2>
+								</div>
+							)} />
+						</Switch>
 					</CSSTransitionGroup>
 				</div>
 			);
@@ -121,7 +135,7 @@ export class PokemonInfo extends Component {
 
 
 	getPokemon = () => {
-		fetch(`/api/pokemon?name=${this.props.match.params.pokemon}`)
+		fetch(`/api/pokemon/${this.props.match.params.pokemon}`)
 			.then(res => res.json())
 			.then(pokemon => this.setState({ pokemon }));
 	};

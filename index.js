@@ -8,7 +8,7 @@ const P = new Pokedex();
 const app = express();
 
 let pokemon = {
-	limit: 20,
+	limit: 10,
 	offset: 0
 };
 
@@ -40,18 +40,60 @@ app.get('/api/pokemons', (req, res) => {
 		pokemon.offset = parseInt(req.query.offset, 10);
 		interval.offset = pokemon.offset;
 	}
+	console.log(interval);
 	P.getPokemonsList(interval).then((result) => res.json(result));
 });
 
-app.get('/api/pokemon', (req, res) => {
-	P.getPokemonByName(req.query.name).then((pokemon) => res.json(pokemon));
+app.get('/api/pokemon/language/:lang', (req, res) => {
+	P.getLanguageByName(req.params.lang)
+		.then(function (response) {
+			res.json(response);
+		})
+		.catch(function (error) {
+			console.log('There was an ERROR: ', error);
+			next(error);
+		});
+});
+
+app.get('/api/pokemon/:name', (req, res) => {
+	P.getPokemonByName(req.params.name).then((pokemon) => res.json(pokemon));
+});
+
+app.get('/api/pokemons/endpoints', (req, res) => {
+	P.getEndpointsList().then((pokemon) => res.json(pokemon)).catch((err) => {
+		res.json(err);
+		next(err);
+	});
+});
+
+app.get('/api/pokemons/berries', (req, res) => {
+	P.getBerriesList().then((pokemon) => res.json(pokemon)).catch((err) => {
+		res.json(err);
+		next(err);
+	});
+});
+
+app.get('/api/pokemons/pokedex', (req, res) => {
+	P.getPokedexsList().then((pokemon) => res.json(pokemon)).catch((err) => {
+		res.json(err);
+		next(err);
+	});
+});
+
+app.get('/api/pokemons/pokedex/:id', (req, res) => {
+	P.getPokedexByName(req.params.id).then((pokemon) => res.json(pokemon)).catch((err) => {
+		res.json(err);
+		next(err);
+	});
 });
 
 app.get('/gallery/*.jpg', (req, res) => {
-	console.log(req);
 	let options = {
 		root: path.join(__dirname, 'client/public'),
-		headers: { 'x-timestamp': Date.now(), 'x-sent': true }
+		headers: {
+			'x-timestamp': Date.now(),
+			'x-sent': true
+		}
 	};
 	res.sendFile(req.params.name, options, (err) => {
 		if (err) next(err);

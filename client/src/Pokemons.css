@@ -94,7 +94,7 @@
     /* $cubeLength: 100px */
     display: inline-block;
     height: 10rem;
-    margin: 0 0 1rem calc(50% - 50px);
+    margin: 0 0 3rem calc(50% - 50px);
     perspective: 600px;
     width: 10rem;
 }
