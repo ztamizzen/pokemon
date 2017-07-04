@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import './Pokedexs.css';
 
 export class Pokedexs extends Component {
@@ -27,15 +28,29 @@ export class Pokedexs extends Component {
 	render() {
 		const { pokedexs, pokedex } = this.state;
 		return (<section className="pokedexs">
-			<h4 className="pokedexs__title">Available pokedexs</h4>
-			<ul>
+			<h3 className="pokedexs__title">Available pokedexs</h3>
+			<CSSTransitionGroup component="ul"
+								className="pokenav"
+								transitionAppear={true}
+								transitionAppearTimeout={500}
+								transitionName="pokemon-inner-animation"
+								transitionEnterTimeout={500}
+								transitionLeaveTimeout={300}>
 				{pokedexs && pokedexs.map(dex => <li key={dex.url} title={dex.url}
-													 className="pokedexs__item" onClick={() => this.getPokedex(dex.name)}>
-					<h5 className="pokedexs__name">{ dex.name }</h5>
-					{ pokedex && pokedex.name === dex.name && (
-						<div className="pokedexs__description">{this.getDescription("en").description}</div>)}
+													 className="pokedexs__item"
+													 onClick={() => this.getPokedex(dex.name)}>
+					<h4 className="pokedexs__name">{ dex.name }</h4>
+					<CSSTransitionGroup component="div"
+										transitionAppear={true}
+										transitionAppearTimeout={500}
+										transitionName="pokemon-inner-animation"
+										transitionEnterTimeout={500}
+										transitionLeaveTimeout={300}>
+						{ pokedex && pokedex.name === dex.name && (
+							<div className="pokedexs__description">{this.getDescription("en").description}</div>)}
+					</CSSTransitionGroup>
 				</li>) }
-			</ul>
+			</CSSTransitionGroup>
 		</section>);
 	}
 }

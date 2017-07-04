@@ -29,8 +29,16 @@
     transition: background-color 500ms, padding 500ms;
 }
 
+.theme-orange .pokemons .pokenav a {
+    color: white;
+}
+
 .pokemons .pokenav a.active {
     background-color: rgba(255, 255, 255, .6);
+}
+
+.theme-orange .pokemons .pokenav a.active {
+    color: black;
 }
 
 .pokemons .pokenav li a:hover {
@@ -70,7 +78,7 @@
 }
 
 .pokemon {
-    background-color: white;
+    background-color: rgba(255, 255, 255, .8);
     border-radius: .5rem;
     cursor: default;
     position: relative;
@@ -91,10 +99,8 @@
 }
 
 .pokemon__sprites {
-    /* $cubeLength: 100px */
-    display: inline-block;
     height: 10rem;
-    margin: 0 0 3rem calc(50% - 50px);
+    margin: 3rem auto;
     perspective: 600px;
     width: 10rem;
 }
@@ -148,7 +154,7 @@
     grid-template-columns: 1fr 2fr 1fr 2fr;
     grid-gap: 1rem;
     margin: 1rem;
-    padding: 0 0 1rem;
+    padding: 3rem 0 1rem;
 }
 
 .pokemon .meta .stats {
@@ -164,11 +170,7 @@
 }
 
 .pokemon .meta .pokemoves {
-    grid-column: 2 / 5;
-}
-
-.pokemon .meta .pokemoves h4 {
-    margin: 0;
+    grid-column: 1 / 5;
 }
 
 .pokemon .meta__child {
@@ -196,24 +198,72 @@
 
 .pokemon-animation-enter {
     opacity: 0;
-    transform: translateX(-100%);
+    transform: translate(-100%, 100%) scale(.5) rotate(-45deg);
 }
 
 .pokemon-animation-enter.pokemon-animation-enter-active {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(0, 0) scale(1) rotate(0);
     transition: opacity 500ms ease-in, transform 300ms ease-in;
 }
 
 .pokemon-animation-leave {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(0, 0) scale(1) rotate(0);
 }
 
 .pokemon-animation-leave.pokemon-animation-leave-active {
     opacity: 0;
-    transform: translateX(-100%);
+    transform: translate(-100%, -100%) scale(1.5) rotate(45deg);
     transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.pokemon-inner-animation-enter {
+    opacity: 0;
+    transform: translate(-10%, 10%) scale(.5) rotate(-45deg);
+}
+
+.pokemon-inner-animation-enter.pokemon-inner-animation-enter-active {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0);
+    transition: opacity 500ms ease-in, transform 300ms ease-in;
+}
+
+.pokemon-inner-animation-leave {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0);
+}
+
+.pokemon-inner-animation-leave.pokemon-inner-animation-leave-active {
+    opacity: 0;
+    transform: translate(-10%, -10%) scale(1.5) rotate(45deg);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.pokemoves__summary {
+    cursor: pointer;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.pokemoves__summary::-webkit-details-marker {
+    color: #bada55;
+}
+
+.pokemoves__details {
+}
+
+.pokemons .pokemoves__subheader {
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.pokemons .pokemoves__sublist {
+    margin-left: 2rem;
+}
+
+.pokemons .pokemoves__sublist--item {
+    padding-bottom: .5rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -232,11 +282,7 @@
         grid-template-columns: 1fr 2fr;
         grid-gap: 1vmax;
         margin: 1rem;
-        padding: 0 0 1rem;
-    }
-
-    .pokemon__sprites {
-        grid-template-columns: repeat(2, 1fr);
+        padding: 2rem 0 1rem;
     }
 
     .pokemon .meta .pokemoves__title {
@@ -245,19 +291,70 @@
     }
 
     .pokemon .meta .pokemoves {
-        grid-column: 1 / 3;
+        grid-column: 1 / 5;
     }
 }
 
+.pokesearch-form {
+    margin: 2rem 0;
+}
+
+.pokesearch-row,
 .btn-group {
     display: grid;
+    grid-gap: 1rem;
     grid-template-columns: 1fr 1fr;
+    justify-items: end;
+}
+
+.pokenav__header {
+    font-family: "Segoe WP Light", sans-serif;
+    margin: 0;
+    padding: 1rem;
+    text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+    .pokesearch-form {
+        border-width: .1rem .1rem 0 .1rem;
+        border-color: forestgreen;
+        border-style: solid;
+        margin-bottom: 0;
+        padding-bottom: 2rem;
+    }
+
+    .pokesearch-row {
+        justify-items: start;
+        padding: 1rem;
+    }
+
+    .btn-group {
+        grid-template-columns: 1fr 1fr;
+        justify-items: auto;
+        padding: 1rem;
+    }
+
+    .pokenav__list {
+        border-width: 0 .1rem .1rem .1rem;
+        border-color: forestgreen;
+        border-style: solid;
+    }
+
+    .pokenav__list .pokenav {
+        padding: 0 1rem;
+    }
+}
+
+#select-limit {
+    justify-self: start;
+    width: stretch;
 }
 
 .btn {
     background-color: rgba(255, 255, 255, .5);
     border: 1px solid #bada55;
     display: inline-block;
+    padding: .5rem 3rem;
     transition: border-color 500ms;
 }
 

@@ -21,6 +21,7 @@ export class Passwords extends Component {
 
 		return (
 			<div className="passwords-wrapper">
+				<h2>Generated from node module</h2>
 				<CSSTransitionGroup
 					component="ul"
 					className="passwords"

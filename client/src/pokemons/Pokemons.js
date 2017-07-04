@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { CSSTransitionGroup } from 'react-transition-group';
 import {
 	NavLink,
 	Route,
 	Switch
 } from 'react-router-dom';
-import { Berries } from './pokemons/Berries';
-import { Pokedexs } from './pokemons/Pokedexs';
+import { Berries } from './Berries';
+import { Pokedexs } from './Pokedexs';
+import { PokemonList } from './PokemonList';
 import './Pokemons.css';
 
 export class Pokemons extends Component {
 	state = {
 		count: 0,
 		pokemons: null,
-		limit: 10,
+		limit: 5,
 		offset: -1
 	};
 
@@ -63,14 +65,8 @@ export class Pokemons extends Component {
 				pokemonList = pokemons.map((poke, idx) => <Pokemon key={idx} pokemon={poke} match={match} />);
 			return (
 				<div className="pokemons" ref={pokemon => this.pokemon = pokemon}>
-					<h2>{count} Pokemons in index</h2>
-					<CSSTransitionGroup component="ul"
-										className="pokenav"
-										transitionAppear={true}
-										transitionAppearTimeout={500}
-										transitionName="pokemon-animation"
-										transitionEnterTimeout={500}
-										transitionLeaveTimeout={300}>
+					<h2>Pokemons and stuff</h2>
+					<ul className="pokenav">
 						<li>
 							<ul>
 								<li>
@@ -78,14 +74,23 @@ export class Pokemons extends Component {
 									<NavLink to={`${match.url}/pokedexs`}>Pokedexs</NavLink>
 								</li>
 							</ul>
+						</li>
+						<li className="pokesearch-form">
 							<form>
-								<label htmlFor="select-limit">Amount:</label>
-								<select id="select-limit" value={this.state.limit} onChange={this.updateLimit}>
-									<option value="5">5</option>
-									<option value="10">10</option>
-									<option value="15">15</option>
-								</select>
-								<div>Offset: {offset + 1} / {Math.ceil(count / limit) } pages</div>
+								<div className="pokesearch-row">
+									<label htmlFor="select-limit">Amount:</label>
+									<select id="select-limit" value={this.state.limit} onChange={this.updateLimit}>
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="15">15</option>
+									</select>
+								</div>
+								<div className="pokesearch-row">
+									<span>Offset:</span>
+									<span>
+										{offset + 1} / {Math.ceil(count / limit) } pages
+									</span>
+								</div>
 								<div className="btn-group">
 									<button className="btn" onClick={this.goPrev}
 											disabled={offset <= 0}>&laquo;</button>
@@ -93,8 +98,19 @@ export class Pokemons extends Component {
 								</div>
 							</form>
 						</li>
-						{pokemonList}
-					</CSSTransitionGroup>
+						<li className="pokenav__list">
+							<h3 className="pokenav__header">Pokemons ({count} available)</h3>
+							<CSSTransitionGroup component="ul"
+												className="pokenav"
+												transitionAppear={true}
+												transitionAppearTimeout={500}
+												transitionName="pokemon-animation"
+												transitionEnterTimeout={500}
+												transitionLeaveTimeout={300}>
+								{pokemonList}
+							</CSSTransitionGroup>
+						</li>
+					</ul>
 
 					<CSSTransitionGroup component="div"
 										transitionAppear={true}
@@ -105,6 +121,9 @@ export class Pokemons extends Component {
 						<Switch>
 							<Route path={`${match.url}/berries`} component={Berries} />
 							<Route path={`${match.url}/pokedexs`} component={Pokedexs} />
+							<Route path={`${match.url}/pokemon-list`} render={() => (
+								<PokemonList limit={limit} offset={offset} count={count} />
+							)} />
 							<Route path={`${match.url}/:pokemon`} component={PokemonInfo} />
 							<Route exact path={match.url} render={() => (
 								<div>
@@ -132,7 +151,6 @@ export class PokemonInfo extends Component {
 			this.getPokemon();
 		}
 	}
-
 
 	getPokemon = () => {
 		fetch(`/api/pokemon/${this.props.match.params.pokemon}`)
@@ -183,7 +201,7 @@ export class PokemonInfo extends Component {
 					<dd className="stats">
 						<PokemonStats stats={pokemon.stats} />
 					</dd>
-					<dt className="pokemoves__title">Moves:</dt>
+					<dt className="pokemoves__title"></dt>
 					<dd className="pokemoves">
 						<PokemonMoves moves={pokemon.moves} />
 					</dd>
@@ -210,28 +228,47 @@ export const PokemonSprites = ({ sprites, name }) => {
 	</div>);
 };
 
+PokemonSprites.propTypes = {
+	sprites: PropTypes.object.isRequired,
+	name: PropTypes.string.isRequired
+};
+
 export const PokemonMoves = ({ moves }) => {
 	const movesMap = moves.map((move, idx) => {
 		const groupDetails = move.version_group_details.map((vers, idx) => {
-			return <li key={idx}>Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of
+			return <li key={idx} className="pokemoves__sublist--item">Learned at {vers.level_learned_at} by {vers.move_learn_method.name} of
 				group {vers.version_group.name}</li>;
 		});
 		return (<li key={idx}>
-			<h4>{move.move.name}</h4>
-			<ul>{groupDetails}</ul>
+			<h4 className="pokemoves__subheader">{move.move.name}</h4>
+			<ul className="pokemoves__sublist">{groupDetails}</ul>
 		</li>);
 	});
-	return <ul>{movesMap}</ul>;
+	return <details className="pokemoves__details">
+		<summary className="pokemoves__summary">Moves (long list)</summary>
+		<ul className="pokemoves__list">{movesMap}</ul>
+	</details>
 };
 
-export const PokemonForms = ({ forms }) => {
-	return (<div>{forms.map((form, idx) => <span key={idx} className="meta__child">{form.name}</span>)}</div>)
+PokemonMoves.propTypes = {
+	moves: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+export const PokemonForms = ({ forms }) => (
+	<div>{forms.map((form, idx) => <span key={idx} className="meta__child">{form.name}</span>)}</div>);
+
+PokemonForms.propTypes = {
+	forms: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export const PokemonAbilities = ({ abilities }) => (
 	<div>{abilities.map((ability, idx) => <span key={idx}
 												className="meta__child">{ability.ability.name}</span>)}</div>
 );
+
+PokemonAbilities.propTypes = {
+	abilities: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export const PokemonGameIndices = ({ indices }) => (
 	<div>{indices.map((indice, idx) => (
@@ -240,6 +277,10 @@ export const PokemonGameIndices = ({ indices }) => (
 	))}</div>
 );
 
+PokemonGameIndices.propTypes = {
+	indices: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
 export const PokemonStats = ({ stats }) => (
 	<div>{stats.map((stat, idx) => (<span className="meta__child stat" key={idx}>
 			{stat.stat.name}: <sub>effort</sub>{stat.effort}/<sub>base stat</sub>{stat.base_stat}
@@ -247,9 +288,17 @@ export const PokemonStats = ({ stats }) => (
 	)}</div>
 );
 
+PokemonStats.propTypes = {
+	stats: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
 export const Pokemon = ({ pokemon, match }) => {
 	return (<li>
 		<NavLink className="pokemon-name" to={`${match.url}/${pokemon.name}`}>{pokemon.name}</NavLink>
 	</li>);
 };
 
+Pokemon.propTypes = {
+	pokemon: PropTypes.object.isRequired,
+	match: PropTypes.object.isRequired
+};

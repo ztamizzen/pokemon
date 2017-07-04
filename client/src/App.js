@@ -9,12 +9,12 @@ import {
 
 import { Quotes } from './Quote';
 import { Passwords } from './Passwords';
-import { Pokemons } from './Pokemons';
+import { Pokemons } from './pokemons/Pokemons';
 import { Gallery } from './Gallery';
 import './App.css';
 
 class App extends Component {
-	state = { quote: [] };
+	state = { quote: [], title: "5 passwords &amp; Pokemons" };
 
 	componentDidMount() {
 		this.getQuote();
@@ -38,15 +38,14 @@ class App extends Component {
 					<nav>
 						<NavLink to="/pokemons">Pokemons</NavLink>
 						<NavLink to="/passwords">Passwords</NavLink>
-						<NavLink to="/gallery">Gallery</NavLink>
 					</nav>
 
 					<main className="content">
-						<Redirect from="/" to="/pokemons" />
 						<Switch>
 							<Route path="/pokemons" component={Pokemons} />
 							<Route path="/passwords" component={Passwords} />
 							<Route path="/gallery" component={Gallery} />
+							<Redirect to="/pokemons" />
 						</Switch>
 					</main>
 

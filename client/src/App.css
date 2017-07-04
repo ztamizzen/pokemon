@@ -8,7 +8,10 @@
 .App-header {
     animation: accordion ease-in-out 12000ms alternate infinite;
     background-color: white;
+    overflow: hidden;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 @keyframes accordion {
@@ -22,15 +25,8 @@
 
 .App nav {
     display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(4, 1fr);
-}
-
-@media screen and (max-width: 768px) {
-    .App nav {
-        grid-gap: 1rem;
-        grid-template-columns: repeat(2, 1fr);
-    }
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .App nav a, .App nav a:link, .App nav a:visited {
@@ -55,7 +51,6 @@
     align-items: start;
     display: grid;
     grid-template-columns: 1fr;
-    margin-top: 2rem;
 }
 
 .App-foot {

@@ -73,6 +73,13 @@ app.get('/api/pokemons/berries', (req, res) => {
 	});
 });
 
+app.get('/api/pokemons/berries/:id', (req, res) => {
+	P.getBerryByName(req.params.id).then((pokemon) => res.json(pokemon)).catch((err) => {
+		res.json(err);
+		next(err);
+	});
+});
+
 app.get('/api/pokemons/pokedex', (req, res) => {
 	P.getPokedexsList().then((pokemon) => res.json(pokemon)).catch((err) => {
 		res.json(err);
