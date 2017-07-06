@@ -1,12 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 
+export class Quotes extends Component {
+	state = { quotes: null };
 
-export const Quotes = ({ quotes }) => {
-	const quoteArray = quotes.map((quote, idx) => <Quote quote={quote} key={idx} />);
-	return (<div className="quotes">
-		{quoteArray}
-	</div>);
-};
+	componentDidMount() {
+		// this.interval = setInterval(() => this.getQuote(), 5000);
+		this.getQuote();
+	}
+
+	componentWillUnmount() {
+		// clearInterval(this.interval);
+	}
+
+	getQuote = () => {
+		fetch('/api/quote')
+			.then(res => res.json())
+			.then(quotes => this.setState({ quotes }));
+	};
+
+	render() {
+		const { quotes } = this.state,
+			quoteArray = quotes && quotes.map((quote, idx) => <Quote quote={quote} key={idx} />);
+		return (
+			<div className="quotes">
+				<CSSTransitionGroup transitionAppear={true}
+									transitionAppearTimeout={500}
+									transitionName="pokemon-animation"
+									transitionEnterTimeout={500}
+									transitionLeaveTimeout={300}>
+					{quoteArray}
+				</CSSTransitionGroup>
+				{ quotes && <button className="other-quote" onClick={this.getQuote}>Another</button>}
+			</div>
+		);
+	}
+}
 
 export const Quote = ({ quote }) => {
 	return (

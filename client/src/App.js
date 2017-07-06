@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
 	BrowserRouter,
 	Route,
@@ -7,63 +7,46 @@ import {
 	Switch
 } from 'react-router-dom';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import PokeApp  from './reducers';
+
 import { Quotes } from './Quote';
-import { Passwords } from './Passwords';
+import { Passwords } from './passwords/Passwords';
 import { Pokemons } from './pokemons/Pokemons';
-import { Gallery } from './Gallery';
+import { Gallery } from './gallery/Gallery';
 import './App.css';
 
-class App extends Component {
-	state = { quote: [], title: "5 passwords &amp; Pokemons" };
+const store = createStore(PokeApp);
 
-	componentDidMount() {
-		this.getQuote();
-	}
-
-	getQuote = () => {
-		fetch('/api/quote')
-			.then(res => res.json())
-			.then(quote => this.setState({ quote }));
-	};
-
-	render() {
-		const { quote } = this.state;
-		return (
-			<BrowserRouter>
-				<div className="App">
-					<div className="App-header">
-						<h1>5 passwords &amp; Pokemons</h1>
-					</div>
-
-					<nav>
-						<NavLink to="/pokemons">Pokemons</NavLink>
-						<NavLink to="/passwords">Passwords</NavLink>
-					</nav>
-
-					<main className="content">
-						<Switch>
-							<Route path="/pokemons" component={Pokemons} />
-							<Route path="/passwords" component={Passwords} />
-							<Route path="/gallery" component={Gallery} />
-							<Redirect to="/pokemons" />
-						</Switch>
-					</main>
-
-					{ quote.length ? (
-						<footer className="App-foot">
-							<Quotes quotes={quote} />
-							<button className="other-quote" onClick={this.getQuote}>Another</button>
-						</footer>
-					) : (
-						<footer className="App-foot">
-							<p>Quoteless online</p>
-							<button className="other-quote" onClick={this.getQuote}>Try to load another</button>
-						</footer>
-					)}
+const App = () => (
+	<Provider store={store}>
+		<BrowserRouter>
+			<div className="App">
+				<div className="App-header">
+					<h1>5 passwords &amp; Pokemons</h1>
 				</div>
-			</BrowserRouter>
-		);
-	}
-}
+
+				<nav>
+					<NavLink to="/pokemons">Pokemons</NavLink>
+					<NavLink to="/passwords">Passwords</NavLink>
+				</nav>
+
+				<main className="content">
+					<Switch>
+						<Route path="/pokemons" component={Pokemons} />
+						<Route path="/passwords" component={Passwords} />
+						<Route path="/gallery" component={Gallery} />
+						<Redirect to="/pokemons" />
+					</Switch>
+				</main>
+
+				<footer className="App-foot">
+					<Quotes />
+				</footer>
+			</div>
+		</BrowserRouter>
+	</Provider>
+);
 
 export default App;

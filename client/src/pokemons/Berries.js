@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
+import { connect } from 'react-redux'
 
-export class Berries extends Component {
+class BerriesClass extends Component {
 	state = { berries: [] };
 
 	componentDidMount() {
 		this.getBerries();
+		this.props.dispatch({ type: 'SHOW_ALL_BERRIES' });
 	}
 
 	getBerries = () => {
@@ -31,7 +33,9 @@ export class Berries extends Component {
 	}
 }
 
-export class Berry extends Component {
+export const Berries = connect()(BerriesClass);
+
+export class BerryClass extends Component {
 	state = { berryData: null };
 	loadBerryData = (e) => {
 		if (!this.state.berryData) {
@@ -75,9 +79,13 @@ export class Berry extends Component {
 	}
 }
 
-const Flavors = ({ flavors }) => {
+export const Berry = connect()(BerryClass);
+
+const FlavorsClass = ({ flavors }) => {
 	const output = flavors && flavors.map((flavor, idx) => (
 			<li key={idx}>{flavor.flavor.name}, potency: {flavor.potency};</li>)
 		);
 	return <ul className="pokedexs__item--list">{output}</ul>;
 };
+
+export const Flavors = connect()(FlavorsClass);

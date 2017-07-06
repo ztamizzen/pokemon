@@ -73,10 +73,17 @@ h1 {
     text-decoration: none;
 }
 
+.other-quote::before {
+    content: "\E72C";
+    display: inline-block;
+    font-family: "Segoe MDL2 Assets", monospace;
+    margin-right: 1rem;
+}
+
 .other-quote {
-    background-color: transparent;
-    border: 0;
-    border-top: .1rem solid #bada55;
+    background-color: rgba(255, 255, 255, .2);
+    border: .1rem solid #bada55;
+    border-radius: .5rem;
     cursor: pointer;
     font-family: Consolas, 'Liberation Mono', Menlo, "Courier New", monospace;
     font-size: 1.6rem;
