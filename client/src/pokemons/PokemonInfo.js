@@ -7,22 +7,23 @@ import { PokemonForms } from "./PokemonForms";
 import { PokemonStats } from "./PokemonStats";
 
 export class PokemonInfo extends Component {
-	state = { pokemon: null };
+	state = { pokemon: null, loading: false };
 
 	componentDidMount() {
 		this.getPokemon();
 	}
 
-	componentDidUpdate(nextProps, nextState) {
+	componentDidUpdate(nextProps) {
 		if (nextProps.match.params.pokemon !== this.props.match.params.pokemon) {
 			this.getPokemon();
 		}
 	}
 
 	getPokemon = () => {
+		this.setState({ loading: true });
 		fetch(`/api/pokemon/${this.props.match.params.pokemon}`)
 			.then(res => res.json())
-			.then(pokemon => this.setState({ pokemon }));
+			.then(pokemon => this.setState({ pokemon, loading: false }));
 	};
 
 	clearPokemon = (e) => {
@@ -31,18 +32,16 @@ export class PokemonInfo extends Component {
 	};
 
 	render() {
-		let { pokemon } = this.state;
+		let { pokemon, loading } = this.state;
 		if (!pokemon) {
 			return null;
 		}
 
 		return (
-			<div className="pokemon">
+			<div className={"pokemon" + (loading ? ' loading' : '')}>
 				<a href="" onClick={this.clearPokemon} className="pokemon__close">&times;</a>
 				<h3 className="pokedexs__title">{pokemon.name} ({pokemon.base_experience}XP)</h3>
-				<div className="pokemon__sprites">
-					<PokemonSprites sprites={pokemon.sprites} name={pokemon.name} />
-				</div>
+				<PokemonSprites sprites={pokemon.sprites} name={pokemon.name} />
 				<dl className="meta">
 					<dt>Species:</dt>
 					<dd>

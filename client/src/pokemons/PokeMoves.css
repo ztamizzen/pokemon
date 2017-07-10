@@ -1,0 +1,31 @@
+.pokemoves__table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 2rem;
+    table-layout: fixed;
+    width: stretch;
+}
+
+.pokemoves__table thead {
+    border-bottom: .1rem dotted #bada55;
+}
+
+.pokemoves__table thead th {
+    padding: .5rem 0;
+}
+
+.pokemons .pokemoves__subheader {
+    border-bottom: .1rem solid #bada55;
+    font-size: 2rem;
+    margin-bottom: .3rem;
+    padding-bottom: .3rem;
+    text-transform: capitalize;
+}
+
+.pokemons .pokemoves__sublist {
+    margin-left: 2rem;
+}
+
+.pokemons .pokemoves__sublist--item {
+    padding-bottom: .5rem;
+}

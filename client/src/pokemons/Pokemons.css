@@ -65,28 +65,26 @@ ul {
     padding-left: 3rem;
 }
 
-.pokemons .loading a {
-    font-weight: 700;
+.pokemons .loading {
     position: relative;
 }
 
-.pokemons .loading a::before {
+.pokemons .loading::before {
     animation: 800ms spin ease-out infinite;
-    content: "\E899";
     content: "\E895";
-    content: "\E950";
-    content: "\E8AF";
     font-family: "Segoe MDL2 Assets", monospace;
-    left: 1rem;
+    font-size: 3rem;
+    left: 2rem;
     position: absolute;
+    top: 2rem;
 }
 
 @keyframes spin {
     from {
-        transform: rotateZ(0)
+        transform: rotateZ(0) scale(1)
     }
     to {
-        transform: rotateZ(360deg)
+        transform: rotateZ(360deg) scale(1)
     }
 }
 
@@ -116,57 +114,6 @@ ul {
 
 .pokemon__close:hover {
     color: orangered;
-}
-
-.pokemon__sprites {
-    height: 10rem;
-    margin: 3rem auto;
-    perspective: 600px;
-    width: 10rem;
-}
-
-.pokemon__sprites .cube {
-    animation: 8s sprite_cube linear infinite;
-    height: inherit;
-    position: relative;
-    transform-style: preserve-3d;
-    transform: rotateY(45deg);
-    transition: transform 600ms;
-    width: inherit;
-}
-
-.pokemon__sprites .cube-face {
-    background-color: rgba(255, 255, 255, .9);
-    height: inherit;
-    margin: 0;
-    position: absolute;
-    opacity: .8;
-    width: inherit;
-}
-
-.pokemon__sprites .cube-face:nth-of-type(1) {
-    transform: translate3d(0, 0, 50px);
-}
-
-.pokemon__sprites .cube-face:nth-of-type(2) {
-    transform: rotateY(90deg) translate3d(0, 0, 50px);
-}
-
-.pokemon__sprites .cube-face:nth-of-type(3) {
-    transform: rotateY(-90deg) translate3d(0, 0, 50px);
-}
-
-.pokemon__sprites .cube-face:nth-of-type(4) {
-    transform: rotateY(180deg) translate3d(0, 0, 50px);
-}
-
-@keyframes sprite_cube {
-    from {
-        transform: rotateY(0);
-    }
-    to {
-        transform: rotateY(360deg);
-    }
 }
 
 .pokemon .meta {
@@ -281,19 +228,6 @@ ul {
 }
 
 .pokemoves__details {
-}
-
-.pokemons .pokemoves__subheader {
-    margin: 0;
-    text-transform: capitalize;
-}
-
-.pokemons .pokemoves__sublist {
-    margin-left: 2rem;
-}
-
-.pokemons .pokemoves__sublist--item {
-    padding-bottom: .5rem;
 }
 
 @media screen and (max-width: 768px) {
