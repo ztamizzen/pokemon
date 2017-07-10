@@ -16,3 +16,7 @@ Started using Redux but it doesn't do much right now.
 ### Links
 * https://pokeapi.co/docsv2/
 * https://daveceddia.com/create-react-app-express-production/
+* https://github.com/mdn/fetch-examples/
+* https://expressjs.com/en/api.html#path-examples
+* https://github.com/PokeAPI/pokedex-promise-v2/blob/master/src/endpoints.json
+* https://dijs.github.io/wiki/
