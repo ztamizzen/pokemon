@@ -29,6 +29,13 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
+@media screen and (max-width: 768px) {
+    .App nav {
+        grid-gap: 0;
+        grid-template-columns: 1fr;
+    }
+}
+
 .App nav a, .App nav a:link, .App nav a:visited {
     background-color: #bada55;
     color: #047;

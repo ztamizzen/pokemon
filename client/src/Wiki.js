@@ -13,7 +13,6 @@ export class Wiki extends Component {
 		fetch('/api/wiki/random')
 			.then(res => res.json())
 			.then(json => {
-				console.log(json);
 				return this.setState({ article: json.raw })
 			});
 	};
@@ -57,7 +56,6 @@ export class WikiPage extends Component {
 			wikipage = wikipage.replace(lineBreaks, () => {
 				return '<br />';
 			});
-			console.log(wikipage);
 			return wikipage && <div className="wikiarticle" dangerouslySetInnerHTML={{ __html: wikipage }}></div>;
 		}
 		return <Loader />;

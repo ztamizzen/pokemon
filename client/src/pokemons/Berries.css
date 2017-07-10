@@ -13,6 +13,12 @@
     transition: background-color 500ms;
 }
 
-.active {
-    background-color: rgba(255, 255, 255, .8);
+.berries__list .active {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+@media screen and (max-width: 768px) {
+    .berries__list .active {
+        grid-column: 1 / 4;
+    }
 }
