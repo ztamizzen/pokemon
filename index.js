@@ -3,6 +3,7 @@ const path = require('path');
 const generatePassword = require('password-generator');
 const randomQuote = require('random-quote');
 const Pokedex = require('pokedex-promise-v2');
+const wiki = require('wikijs').default;
 
 const P = new Pokedex();
 const app = express();
@@ -13,6 +14,20 @@ let pokemon = {
 };
 
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('/api/wiki/random', (req, res) => {
+	wiki().random(1).then(results => wiki().page(results[0])).then(page => res.json(page));
+});
+
+app.get('/api/wiki/:page', (req, res) => {
+	console.log(req.params);
+	wiki().page(req.params.page)
+		.then(results => results.content())
+		.then(content => res.json(content))
+		.catch((err) => {
+			console.log(25, err);
+		});
+});
 
 app.get('/api/passwords', (req, res) => {
 	const count = 5;

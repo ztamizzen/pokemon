@@ -3,7 +3,6 @@ html {
 }
 
 body {
-    background-image: radial-gradient(ellipse at center, #fff, #bada55);
     background-image: radial-gradient(ellipse farthest-corner at 4rem 4rem, #fff, #bada55);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.6rem;

@@ -9,6 +9,8 @@ import {
 import { Berries } from './Berries';
 import { Pokedexs } from './Pokedexs';
 import { PokemonList } from './PokemonList';
+import {Wiki} from '../Wiki';
+import { Loader } from '../Loader';
 import './Pokemons.css';
 
 export class Pokemons extends Component {
@@ -66,7 +68,7 @@ export class Pokemons extends Component {
 			return (
 				<div className="pokemons" ref={pokemon => this.pokemon = pokemon}>
 					<h2>Pokemons and stuff</h2>
-					<ul className="pokenav">
+					<ul className="pokemons__pokenav">
 						<li>
 							<ul>
 								<li>
@@ -84,8 +86,6 @@ export class Pokemons extends Component {
 										<option value="10">10</option>
 										<option value="15">15</option>
 									</select>
-								</div>
-								<div className="pokesearch-row">
 									<span>Offset:</span>
 									<span>
 										{offset + 1} / {Math.ceil(count / limit) } pages
@@ -127,7 +127,8 @@ export class Pokemons extends Component {
 							<Route path={`${match.url}/:pokemon`} component={PokemonInfo} />
 							<Route exact path={match.url} render={() => (
 								<div>
-									<h2>&laquo; Select a Pokemon &raquo;</h2>
+									<h2>Placeholder until you click something to the left</h2>
+									<Wiki />
 								</div>
 							)} />
 						</Switch>
@@ -135,7 +136,7 @@ export class Pokemons extends Component {
 				</div>
 			);
 		}
-		return null;
+		return <Loader />;
 	}
 }
 
@@ -172,7 +173,7 @@ export class PokemonInfo extends Component {
 		return (
 			<div className="pokemon">
 				<a href="" onClick={this.clearPokemon} className="pokemon__close">&times;</a>
-				<h3>{pokemon.name} ({pokemon.base_experience}XP)</h3>
+				<h3 className="pokedexs__title">{pokemon.name} ({pokemon.base_experience}XP)</h3>
 				<div className="pokemon__sprites">
 					<PokemonSprites sprites={pokemon.sprites} name={pokemon.name} />
 				</div>
@@ -294,7 +295,7 @@ PokemonStats.propTypes = {
 
 export const Pokemon = ({ pokemon, match }) => {
 	return (<li>
-		<NavLink className="pokemon-name" to={`${match.url}/${pokemon.name}`}>{pokemon.name}</NavLink>
+		<NavLink to={`${match.url}/${pokemon.name}`}>{pokemon.name}</NavLink>
 	</li>);
 };
 

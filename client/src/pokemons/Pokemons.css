@@ -8,16 +8,34 @@
 }
 
 .pokemons h2 {
+    font-family: "Segoe WP Light", sans-serif;
     grid-column: span 2;
 }
 
-.pokemons ul {
+ul {
     list-style: none;
     margin: 0 0 2rem;
     padding: 0;
 }
 
-.pokemons .pokenav a {
+.pokemons__pokenav {
+    background-color: #bada55;
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: .5rem;
+    box-shadow: -.5rem 1rem 2rem -.5rem #8ada40;
+    padding: 1rem;
+    transition: box-shadow 500ms;
+}
+
+.pokemons__pokenav:hover {
+    box-shadow: .5rem 1rem 2rem -.5rem #8ada40;
+}
+
+.pokenav__list {
+    perspective: 60rem;
+}
+
+.pokemons__pokenav a {
     background-color: rgba(255, 255, 255, .2);
     border: 1px solid rgba(255, 255, 255, .8);
     color: #004477;
@@ -26,22 +44,24 @@
     margin: .3rem 0;
     padding: .6rem 2rem;
     text-decoration: none;
+    text-transform: capitalize;
     transition: background-color 500ms, padding 500ms;
 }
 
-.theme-orange .pokemons .pokenav a {
+.theme-orange .pokemons__pokenav a {
     color: white;
 }
 
-.pokemons .pokenav a.active {
+.pokemons__pokenav a.active {
     background-color: rgba(255, 255, 255, .6);
+    padding: 1rem 2rem;
 }
 
-.theme-orange .pokemons .pokenav a.active {
+.theme-orange .pokemons__pokenav a.active {
     color: black;
 }
 
-.pokemons .pokenav li a:hover {
+.pokemons__pokenav li a:hover {
     padding-left: 3rem;
 }
 
@@ -193,51 +213,61 @@
 }
 
 .pokemon-animation {
-
+    transform-origin: left;
 }
 
 .pokemon-animation-enter {
     opacity: 0;
-    transform: translate(-100%, 100%) scale(.5) rotate(-45deg);
+    transform: rotateY(90deg);
+    transform-origin: left;
 }
 
 .pokemon-animation-enter.pokemon-animation-enter-active {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0);
+    transform: rotateY(0);
     transition: opacity 500ms ease-in, transform 300ms ease-in;
+    transform-origin: left;
 }
 
 .pokemon-animation-leave {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0);
+    transform: rotateY(0);
+    transform-origin: left;
 }
 
 .pokemon-animation-leave.pokemon-animation-leave-active {
     opacity: 0;
-    transform: translate(-100%, -100%) scale(1.5) rotate(45deg);
+    transform: rotateY(90deg);
     transition: opacity 300ms ease-in, transform 300ms ease-in;
+    transform-origin: left;
 }
 
 .pokemon-inner-animation-enter {
     opacity: 0;
-    transform: translate(-10%, 10%) scale(.5) rotate(-45deg);
+    transform: rotateX(-90deg);
+    transform-origin: top;
 }
 
 .pokemon-inner-animation-enter.pokemon-inner-animation-enter-active {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0);
-    transition: opacity 500ms ease-in, transform 300ms ease-in;
+    text-shadow: 1px 1px 4px white;
+    transform: rotateX(0);
+    transition: opacity 500ms ease-in, text-shadow 500ms, transform 500ms ease-in;
+    transform-origin: top;
 }
 
 .pokemon-inner-animation-leave {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0);
+    transform: rotateX(0);
+    transform-origin: top;
 }
 
 .pokemon-inner-animation-leave.pokemon-inner-animation-leave-active {
     opacity: 0;
-    transform: translate(-10%, -10%) scale(1.5) rotate(45deg);
-    transition: opacity 300ms ease-in, transform 300ms ease-in;
+    text-shadow: 1px 1px 4px white;
+    transform: rotateX(-90deg);
+    transition: opacity 300ms ease-in, text-shadow 300ms, transform 300ms ease-in;
+    transform-origin: top;
 }
 
 .pokemoves__summary {
@@ -299,12 +329,17 @@
     margin: 2rem 0;
 }
 
-.pokesearch-row,
+.pokesearch-row {
+    display: grid;
+    grid-gap: 1rem 2rem;
+    grid-template-columns: 1fr 1fr;
+    margin: 1rem 0;
+}
+
 .btn-group {
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: 1fr 1fr;
-    justify-items: end;
 }
 
 .pokenav__header {
@@ -316,9 +351,6 @@
 
 @media screen and (max-width: 768px) {
     .pokesearch-form {
-        border-width: .1rem .1rem 0 .1rem;
-        border-color: forestgreen;
-        border-style: solid;
         margin-bottom: 0;
         padding-bottom: 2rem;
     }
@@ -335,9 +367,6 @@
     }
 
     .pokenav__list {
-        border-width: 0 .1rem .1rem .1rem;
-        border-color: forestgreen;
-        border-style: solid;
     }
 
     .pokenav__list .pokenav {

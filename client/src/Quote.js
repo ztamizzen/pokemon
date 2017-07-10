@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 
+
+export class Wiki extends Component {
+	state = { article: null };
+
+	componentDidMount() {
+		this.getRandomWiki();
+	}
+
+	getRandomWiki = () => {
+		fetch('/api/wiki/random')
+			.then(res => res.json())
+			.then(json => this.setState({ article: json.raw }));
+	};
+
+	render() {
+		return this.state.article && (<span>Random wikipedia article <a
+				href={this.state.article.fullurl}>{this.state.article.title}</a></span>);
+	}
+}
+
 export class Quotes extends Component {
 	state = { quotes: null };
 

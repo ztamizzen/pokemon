@@ -1,0 +1,5 @@
+.pokeloader {
+    left: calc(50% - 60px);
+    position: absolute;
+    top: calc(50% - 60px);
+}

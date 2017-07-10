@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
+import { Loader } from '../Loader';
 import './Pokedexs.css';
 
 export class Pokedexs extends Component {
-	state = { pokedexs: [], pokedex: null };
+	state = { pokedexs: [], pokedex: null, loading: false };
 
 	componentDidMount() {
 		this.getPokedexs();
@@ -16,9 +17,10 @@ export class Pokedexs extends Component {
 	};
 
 	getPokedex = (idx) => {
+		this.setState({ loading: true });
 		fetch('/api/pokemons/pokedex/' + idx)
 			.then(res => res.json())
-			.then(pokedex => this.setState({ pokedex }));
+			.then(pokedex => this.setState({ pokedex, loading: false }));
 	};
 
 	getDescription(lang) {
@@ -26,11 +28,12 @@ export class Pokedexs extends Component {
 	}
 
 	render() {
-		const { pokedexs, pokedex } = this.state;
+		const { pokedexs, pokedex, loading } = this.state;
 		return (<section className="pokedexs">
+			{ loading && <Loader />}
 			<h3 className="pokedexs__title">Available pokedexs</h3>
 			<CSSTransitionGroup component="ul"
-								className="pokenav"
+								className="pokedexs__list"
 								transitionAppear={true}
 								transitionAppearTimeout={500}
 								transitionName="pokemon-inner-animation"
@@ -40,14 +43,14 @@ export class Pokedexs extends Component {
 													 className="pokedexs__item"
 													 onClick={() => this.getPokedex(dex.name)}>
 					<h4 className="pokedexs__name">{ dex.name }</h4>
-					<CSSTransitionGroup component="div"
+					<CSSTransitionGroup component="ul"
 										transitionAppear={true}
 										transitionAppearTimeout={500}
 										transitionName="pokemon-inner-animation"
 										transitionEnterTimeout={500}
 										transitionLeaveTimeout={300}>
 						{ pokedex && pokedex.name === dex.name && (
-							<div className="pokedexs__description">{this.getDescription("en").description}</div>)}
+							<li className="pokedexs__description">{this.getDescription("en").description}</li>)}
 					</CSSTransitionGroup>
 				</li>) }
 			</CSSTransitionGroup>

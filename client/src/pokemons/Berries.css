@@ -1,0 +1,18 @@
+.berries__list {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+}
+
+.pokedex__transition {
+    background-color: rgba(255, 255, 255, .4);
+    border: .1rem solid #bada55;
+    border-radius: .5rem;
+    padding: .1rem;
+    transition: background-color 500ms;
+}
+
+.active {
+    background-color: rgba(255, 255, 255, .8);
+}

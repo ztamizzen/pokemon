@@ -1,0 +1,8 @@
+.wikiarticle {
+    background-color: white;
+    border: .1rem solid #bada55;
+    border-radius: .5rem;
+    margin: 2rem 0;
+    padding: 2rem;
+    text-align: left;
+}

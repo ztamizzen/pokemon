@@ -11,7 +11,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import PokeApp  from './reducers';
 
-import { Quotes } from './Quote';
+import { Quotes, Wiki } from './Quote';
 import { Passwords } from './passwords/Passwords';
 import { Pokemons } from './pokemons/Pokemons';
 import { Gallery } from './gallery/Gallery';
@@ -43,6 +43,7 @@ const App = () => (
 
 				<footer className="App-foot">
 					<Quotes />
+					<Wiki />
 				</footer>
 			</div>
 		</BrowserRouter>

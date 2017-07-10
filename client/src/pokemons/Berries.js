@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import './Berries.css';
 
 class BerriesClass extends Component {
 	state = { berries: [] };
@@ -20,8 +22,9 @@ class BerriesClass extends Component {
 		const { berries } = this.state;
 		const berryOutput = berries && berries.map(berry => <Berry key={berry.url} berry={berry} />);
 		return (<section className="pokedexs">
-			<h3>Available berries</h3>
+			<h3 className="pokedexs__title">Available berries</h3>
 			<CSSTransitionGroup component="ul"
+								className="berries__list"
 								transitionAppear={true}
 								transitionAppearTimeout={500}
 								transitionName="pokemon-inner-animation"
@@ -52,8 +55,8 @@ export class BerryClass extends Component {
 		const { berry } = this.props,
 			{ berryData } = this.state;
 		return (
-			<CSSTransitionGroup component="div"
-								className="pokedex__transition"
+			<CSSTransitionGroup component="li"
+								className={"pokedex__transition" + (berryData ? " active" : "")}
 								transitionAppear={true}
 								transitionAppearTimeout={500}
 								transitionName="pokemon-inner-animation"
