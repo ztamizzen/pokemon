@@ -14,5 +14,5 @@ Started using Redux but it doesn't do much right now.
 * Pick a better color scheme
 
 ### Links
-* https://pokeapi.co/docsv2/#pokemonsprites
+* https://pokeapi.co/docsv2/
 * https://daveceddia.com/create-react-app-express-production/
