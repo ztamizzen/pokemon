@@ -3,11 +3,18 @@ import { Loader } from './Loader';
 import './Wiki.css';
 
 export class Wiki extends Component {
-	state = { article: null };
+	state = { article: null, loripsum: null };
 
 	componentDidMount() {
 		this.getRandomWiki();
+		this.getLoripsum();
 	}
+
+	getLoripsum = () => {
+		fetch('/api/loripsum')
+			.then(res => res.text())
+			.then(loripsum => this.setState({ loripsum }))
+	};
 
 	getRandomWiki = () => {
 		fetch('/api/wiki/random')
@@ -18,11 +25,14 @@ export class Wiki extends Component {
 	};
 
 	render() {
-		const { article } = this.state,
-			page = article && <WikiPage wikiTitle={article.title} />;
+		const { article, loripsum } = this.state;
 		if (article) {
-			return (<span>Random wikipedia article <a
-				href={article.fullurl}>{article.title}</a> {page}</span>);
+			return (<div className="loripsum">
+				<div dangerouslySetInnerHTML={{ __html: loripsum }}></div>
+				<span>Random wikipedia article <a
+					href={article.fullurl}>{article.title}</a>
+				</span>
+			</div>);
 		}
 		return <Loader />;
 	}

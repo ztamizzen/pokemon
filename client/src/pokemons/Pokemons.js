@@ -134,10 +134,7 @@ export class Pokemons extends Component {
 							)} />
 							<Route path={`${match.url}/:pokemon`} component={PokemonInfo} />
 							<Route exact path={match.url} render={() => (
-								<div>
-									<h2>Placeholder until you click something to the left</h2>
-									<Wiki />
-								</div>
+								<Wiki />
 							)} />
 						</Switch>
 					</CSSTransitionGroup>

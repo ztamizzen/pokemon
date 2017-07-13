@@ -4,6 +4,7 @@ const generatePassword = require('password-generator');
 const randomQuote = require('random-quote');
 const Pokedex = require('pokedex-promise-v2');
 const wiki = require('wikijs').default;
+const loripsum = require('loripsum');
 
 const P = new Pokedex();
 const app = express();
@@ -14,6 +15,14 @@ let pokemon = {
 };
 
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('/api/loripsum', (req, res) => {
+	loripsum.html({
+		paragraphCount: 2,
+		ul: true,
+		bq: true
+	}).then(slipsum => res.send(slipsum)).catch((err) => console.error(err));
+});
 
 app.get('/api/wiki/random', (req, res) => {
 	wiki().random(1).then(results => wiki().page(results[0])).then(page => res.json(page));
