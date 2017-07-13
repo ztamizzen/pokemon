@@ -10,8 +10,34 @@ export class Wiki extends Component {
 		this.getLoripsum();
 	}
 
+	loripsumHash = {
+		paragraphCount: 10,
+		paragraphLength: "short",
+		decorate: false,
+		link: true,
+		ul: false,
+		ol: false,
+		dl: false,
+		bq: false,
+		code: false,
+		headers: true,
+		allcaps: false,
+		prude: false
+	};
+
+	getLoripsumUrl = () => {
+		let arr = [],
+			keys = Object.keys(this.loripsumHash);
+		for (let i = 0, len = keys.length; i < len; ++i) {
+			let key = keys[i], value = this.loripsumHash[key];
+			arr.push([key, value].join('='));
+		}
+		return arr.join('&');
+	};
+
 	getLoripsum = () => {
-		fetch('/api/loripsum')
+		let url = this.getLoripsumUrl();
+		fetch('/api/loripsum?' + url)
 			.then(res => res.text())
 			.then(loripsum => this.setState({ loripsum }))
 	};

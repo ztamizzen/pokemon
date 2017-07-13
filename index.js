@@ -12,16 +12,34 @@ const app = express();
 let pokemon = {
 	limit: 10,
 	offset: 0
+}, convertStringToBoolean = function (query) {
+	let keys = Object.keys(query),
+		i = 0,
+		len = keys.length,
+		booleanRegExp = /false|true/;
+	for (; i < len; ++i) {
+		let key = keys[i],
+			value = query[key];
+		if (booleanRegExp.test(value)) {
+			query[key] = eval(value);
+		} else if (!isNaN(Number(value))) {
+			query[key] = Number(value);
+		}
+	}
+	return query;
 };
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/api/loripsum', (req, res) => {
-	loripsum.html({
+	let query = convertStringToBoolean(req.query);
+	let url = Object.assign({}, query, {
 		paragraphCount: 2,
 		ul: true,
 		bq: true
-	}).then(slipsum => res.send(slipsum)).catch((err) => console.error(err));
+	});
+	loripsum.html(url).then(slipsum => res.send(slipsum))
+		.catch((err) => console.error(err));
 });
 
 app.get('/api/wiki/random', (req, res) => {
@@ -29,7 +47,6 @@ app.get('/api/wiki/random', (req, res) => {
 });
 
 app.get('/api/wiki/:page', (req, res) => {
-	console.log(req.params);
 	wiki().page(req.params.page)
 		.then(results => results.content())
 		.then(content => res.json(content))
