@@ -19,9 +19,11 @@ export const PokemonMoves = ({ moves }) => {
 		return (<li key={idx}>
 			<h4 className="pokemoves__subheader">{move.move.name}</h4>
 			<table className="pokemoves__table">
-				<col width="20%" />
-				<col width="30%" />
-				<col width="50%" />
+				<colgroup>
+					<col width="20%" />
+					<col width="30%" />
+					<col width="50%" />
+				</colgroup>
 				<thead>
 				<tr>
 					<th>Level</th>

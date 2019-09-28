@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
-
-
+import { CSSTransition } from 'react-transition-group';
+/* 
+function Wiki() {
+	const [inProp, setInProp] = useState(false);
+}
+*/
 export class Wiki extends Component {
 	state = { article: null };
 
@@ -40,19 +43,18 @@ export class Quotes extends Component {
 	};
 
 	render() {
-		const { quotes } = this.state,
-			quoteArray = quotes && quotes.map((quote, idx) => <Quote quote={quote} key={idx} />);
+		const { quotes } = this.state;
+		const quoteArray = quotes && quotes.map((quote, idx) => <Quote quote={quote} key={idx} />);
+		const inProp = quotes && quotes.length > 0;
 		return (
-			<div className="quotes">
-				<CSSTransitionGroup transitionAppear={true}
-									transitionAppearTimeout={500}
-									transitionName="pokemon-animation"
-									transitionEnterTimeout={500}
-									transitionLeaveTimeout={300}>
+			<CSSTransition in={inProp}
+							   timeout={200}
+							   className="pokemon-animation">
+				<div className="quotes">
 					{quoteArray}
-				</CSSTransitionGroup>
-				{ quotes && <button className="other-quote" onClick={this.getQuote}>Another</button>}
-			</div>
+					{ quotes && <button className="other-quote" onClick={this.getQuote}>Another</button>}
+				</div>
+			</CSSTransition>
 		);
 	}
 }

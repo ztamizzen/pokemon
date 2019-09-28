@@ -81,7 +81,7 @@ app.get('/api/pokemons', (req, res) => {
 		pokemon.offset = parseInt(req.query.offset, 10);
 		interval.offset = pokemon.offset;
 	}
-	console.log(interval);
+	console.log('pokemons', interval);
 	P.getPokemonsList(interval).then((result) => res.json(result));
 });
 

@@ -39,7 +39,7 @@ export class PokemonInfo extends Component {
 
 		return (
 			<div className={"pokemon" + (loading ? ' loading' : '')}>
-				<a href="" onClick={this.clearPokemon} className="pokemon__close">&times;</a>
+				<button onClick={this.clearPokemon} className="pokemon__close">&times;</button>
 				<h3 className="pokedexs__title">{pokemon.name} ({pokemon.base_experience}XP)</h3>
 				<PokemonSprites sprites={pokemon.sprites} name={pokemon.name} />
 				<dl className="meta">

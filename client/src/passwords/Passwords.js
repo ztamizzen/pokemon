@@ -1,39 +1,42 @@
-import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
+import React, {
+	useEffect,
+	useState
+} from 'react';
+import {
+	CSSTransition,
+	TransitionGroup
+} from 'react-transition-group';
+
 import './Passwords.css';
 
-export class Passwords extends Component {
-	state = { passwords: [] };
+export function Passwords() {
+	const [passwords, setPasswords] = useState([]);
+	useEffect(() => {
+		async function fetchData() {
+			const response = await fetch('/api/passwords');
+			const json = await response.json();
+			setPasswords(json);
+		}
+		fetchData();
+		return () => [];
+	}, []);
 
-	componentDidMount() {
-		this.getPasswords();
-	}
-
-	getPasswords = () => {
-		fetch('/api/passwords')
-			.then(res => res.json())
-			.then(passwords => this.setState({ passwords }));
-	};
-
-	render() {
-		const { passwords } = this.state;
-		const mapped = passwords.map((password, key) => <li key={key}>{password}</li>);
-
-		return (
-			<div className="passwords-wrapper">
-				<h2>Generated from node module</h2>
-				<CSSTransitionGroup
-					component="ul"
-					className="passwords"
-					transitionAppear={true}
-					transitionAppearTimeout={500}
-					transitionName="password-animation"
-					transitionEnterTimeout={500}
-					transitionLeaveTimeout={300}>
-					{mapped}
-				</CSSTransitionGroup>
-				<button className="more" onClick={this.getPasswords}>Nope, others&hellip;</button>
-			</div>
-		);
-	}
+	return (
+		<div className="passwords-wrapper">
+			<h2>Generated from node module</h2>
+			<h3>Loaded through useEffect hook</h3>
+			<TransitionGroup
+				className="passwords"
+				component="ul">
+				{passwords.map((pwd, index) => (
+					<CSSTransition
+						key={index}
+						timeout={200}
+						className="password">
+						<li>{pwd}</li>
+					</CSSTransition>
+				))}
+			</TransitionGroup>
+		</div>
+	);
 }

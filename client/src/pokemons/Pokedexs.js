@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import { Loader } from '../Loader';
 import './Pokedexs.css';
 
@@ -32,7 +32,7 @@ export class Pokedexs extends Component {
 		return (<section className="pokedexs">
 			{ loading && <Loader />}
 			<h3 className="pokedexs__title">Available pokedexs</h3>
-			<CSSTransitionGroup component="ul"
+			<CSSTransition component="ul"
 								className="pokedexs__list"
 								transitionAppear={true}
 								transitionAppearTimeout={500}
@@ -43,7 +43,7 @@ export class Pokedexs extends Component {
 													 className="pokedexs__item"
 													 onClick={() => this.getPokedex(dex.name)}>
 					<h4 className="pokedexs__name">{ dex.name }</h4>
-					<CSSTransitionGroup component="ul"
+					<CSSTransition component="ul"
 										transitionAppear={true}
 										transitionAppearTimeout={500}
 										transitionName="pokemon-inner-animation"
@@ -51,9 +51,9 @@ export class Pokedexs extends Component {
 										transitionLeaveTimeout={300}>
 						{ pokedex && pokedex.name === dex.name && (
 							<li className="pokedexs__description">{this.getDescription("en").description}</li>)}
-					</CSSTransitionGroup>
+					</CSSTransition>
 				</li>) }
-			</CSSTransitionGroup>
+			</CSSTransition>
 		</section>);
 	}
 }

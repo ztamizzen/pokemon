@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 
 import './Berries.css';
@@ -23,7 +23,7 @@ class BerriesClass extends Component {
 		const berryOutput = berries && berries.map(berry => <Berry key={berry.url} berry={berry} />);
 		return (<section className="pokedexs">
 			<h3 className="pokedexs__title">Available berries</h3>
-			<CSSTransitionGroup component="ul"
+			<CSSTransition component="ul"
 								className="berries__list"
 								transitionAppear={true}
 								transitionAppearTimeout={500}
@@ -31,7 +31,7 @@ class BerriesClass extends Component {
 								transitionEnterTimeout={500}
 								transitionLeaveTimeout={300}>
 				{berryOutput}
-			</CSSTransitionGroup>
+			</CSSTransition>
 		</section>);
 	}
 }
@@ -55,7 +55,7 @@ export class BerryClass extends Component {
 		const { berry } = this.props,
 			{ berryData } = this.state;
 		return (
-			<CSSTransitionGroup component="li"
+			<CSSTransition component="li"
 								className={"pokedex__transition" + (berryData ? " active" : "")}
 								transitionAppear={true}
 								transitionAppearTimeout={500}
@@ -77,7 +77,7 @@ export class BerryClass extends Component {
 						<li>Item: {berryData.item.name}</li>
 					</ul>
 				)}
-			</CSSTransitionGroup>
+			</CSSTransition>
 		);
 	}
 }

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransitionGroup } from 'react-transition-group';
+import {
+	CSSTransition,
+	TransitionGroup
+} from 'react-transition-group';
 import {
 	NavLink,
 	Route,
@@ -20,7 +23,7 @@ export class Pokemons extends Component {
 		pokemons: null,
 		limit: 5,
 		loading: false,
-		offset: -1
+		offset: 0
 	};
 
 	componentDidMount() {
@@ -39,7 +42,9 @@ export class Pokemons extends Component {
 	};
 
 	updateLimit = (e) => {
-		this.setState({ limit: parseInt(e.target.value, 10) }, () => {
+		this.setState({
+			limit: parseInt(e.target.value, 10)
+		}, () => {
 			this.getPokemonsList();
 		});
 	};
@@ -52,7 +57,7 @@ export class Pokemons extends Component {
 		else {
 			value = parseInt(e.target.value, 10);
 		}
-		this.setState({ offset: (this.state.offset + value) || -1 }, () => {
+		this.setState({ offset: (this.state.offset + value) || 0 }, () => {
 			this.getPokemonsList();
 		});
 	};
@@ -71,7 +76,14 @@ export class Pokemons extends Component {
 		if (this.state.pokemons) {
 			const { match } = this.props;
 			const { count, pokemons, offset, limit, loading } = this.state,
-				pokemonList = pokemons.map((poke, idx) => <Pokemon key={idx} pokemon={poke} match={match} />);
+				pokemonList = pokemons.map((poke, idx) => (
+					<CSSTransition
+						key={idx}
+						timeout={200}
+						className="password">
+						<Pokemon key={idx} pokemon={poke} match={match} />
+					</CSSTransition>
+				));
 			return (
 				<div className="pokemons" ref={pokemon => this.pokemon = pokemon}>
 					<h2>Pokemons and stuff</h2>
@@ -107,25 +119,17 @@ export class Pokemons extends Component {
 						</li>
 						<li className="pokenav__list">
 							<h3 className="pokenav__header">Pokemons ({count} available)</h3>
-							<CSSTransitionGroup component="ul"
-												className="pokenav"
-												transitionAppear={true}
-												transitionAppearTimeout={500}
-												transitionName="pokemon-animation"
-												transitionEnterTimeout={500}
-												transitionLeaveTimeout={300}>
+							<TransitionGroup
+								component="ul"
+								className="pokenav">
 								{pokemonList}
-							</CSSTransitionGroup>
+							</TransitionGroup>
 						</li>
 					</ul>
 					{ loading && <Loader />}
 
-					<CSSTransitionGroup component="div"
-										transitionAppear={true}
-										transitionAppearTimeout={500}
-										transitionName="pokemon-animation"
-										transitionEnterTimeout={500}
-										transitionLeaveTimeout={300}>
+					<TransitionGroup
+						component="div">
 						<Switch>
 							<Route path={`${match.url}/berries`} component={Berries} />
 							<Route path={`${match.url}/pokedexs`} component={Pokedexs} />
@@ -137,7 +141,7 @@ export class Pokemons extends Component {
 								<Wiki />
 							)} />
 						</Switch>
-					</CSSTransitionGroup>
+					</TransitionGroup>
 				</div>
 			);
 		}
